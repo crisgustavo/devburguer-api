@@ -1,0 +1,7 @@
+const { resolve } = require('node:path');
+
+module.exports = {
+    config: resolve(__dirname, 'src', 'config', 'database.js'),  //indica caminho das configurações do banco
+    'models-path': resolve(__dirname, 'src', 'app', 'models'),  //indica caminho da pasta models
+    'migrations-path': resolve(__dirname, 'src', 'database', 'migrations')  //indica caminho da pasta migrations
+}

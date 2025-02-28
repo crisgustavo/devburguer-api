@@ -1,0 +1,223 @@
+Criado primeiramente o arquivo app.js onde os passos foram:
+    *Importar o express
+    *Instanciar a classe App com o constructor que vai puxar os middlewares e routes
+    *exportar a classe app
+
+Criado o arquivo routes.js onde os passos foram:
+    *Importar o Router do express
+    *Instanciar a classe na variável routes
+    *Criar uma rota get na raiz com mensagem
+    *exportar a váriavel routes.
+    *No app.js importar routes e instanciar no modulo routes
+
+Criado o arquivo server.js onde os passos foram:
+    *Importar app de app.js
+    *criar o listen da porta com mensagem para acesso no navegador
+
+
+
+--------------------- INSTALANDO NODEMON -----------------------
+    Instalar nodemon como dependencia de desenvolvimento
+    yarn add nodemon -D
+    ** Alterar o main no package.json para src/server.js e script {dev: nodemon}
+
+
+
+-------------------- PADRÃO DE ESTRUTURAS MVC ----------------------
+MODEL
+    *Responsável pela leitura e escrita dos dados
+
+VIEW
+    *Responsável pela exibição dos dados para o usuário (React no FrontEnd)
+
+CONTROLLER
+    *Responsável por receber as requisições controlar qual MODEL usar e qual VIEW mostrar
+
+
+
+--------------------- INSTALAR DOCKER ----------------------
+    *Ler documentação hub.docker mas a linha para essa aplicação foi:
+        docker run --name devburger-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+        docker ps
+
+
+
+--------------------- INSTALAR BEEKEEPER ------------------------
+    Conectar ao postgres como feito no docker e em seguida criar o banco de dados
+
+
+
+--------------------- INSTALAR SEQUELIZE ------------------------
+    yarn add sequelize pg pg-hstore      //Instala o Sequelize e o postgres
+    yarn add -D sequelize-cli           //Instala o SEQUELIZE CLIENT em desenvolvimento
+
+    **Criar na raiz arquivo '.sequelizerc'
+
+
+
+--------------------- INSTALAR SUCRASE ---------------------------
+    yarn add sucrase
+    yarn sucrase-node src/server.js   -    Teste o servidor
+    procurar nodemon + sucrase no google e ler o resultado de DEV COMUNITY
+
+
+
+--------------------- Criando Migrations ------------------------
+    **Instruções para o banco de dados.
+    yarn sequelize migration:create --name create-users-table   //Cria a migration que vai criar a tabela de usuários
+        Ir até o arquivo criado e inserir os campos da tabela
+        yarn sequelize db:migrate           //roda a migration e cria a tabela
+
+
+
+--------------------- Criando Models -----------------------
+    **Vai representar os campos do banco de dados para o FrontEnd. A ponte que liga a aplicação ao banco
+        *Criar arquivo NOME_DA_TABELA e na classe identificar os campos
+
+
+
+--------------------- Criando e Configurando a Model ----------------------
+    **No index da pasta database. Importar sequelize, configDatabase(do dabatase.js pasta config) e as Models
+    **Criar a classe da Database e o método constructor e init
+    **Criar o array de models e a conexão das mesmas
+    **Em routes importer a model user
+
+    yarn add uuid       -       Vai gerar os ids.
+        **Importar em routes o método v4
+
+    **criado um método GET que vai estar comentado para teste de inserção de dados no banco
+
+
+
+--------------------- Criando Controller --------------------------
+    **Criar arquivo UserController.js na pasta Controller
+    Controller é uma classe que tem métodos padronizados
+        store - cadastrar/adicionar
+        index - listar vários
+        show - lista apenas um
+        update - atualiza informações
+        delete - exclui informações
+    **Criar classe store para Users
+    **variavel de importação do body e corpo de inserção no body.
+    
+
+
+-------------------- Validando dados com YUP ------------------------
+    yarn add yup        //Para validação dos dados enviados pelo body
+    ***Dentro do UserController criar a validação!!!
+
+
+
+-------------------- Criptografia de senha -----------------------
+    yarn add bcrypt     //Biblioteca para encriptar senha
+    **Na model User criar o campo password como sequelize.VIRTUAL
+
+
+
+-------------------- Validando Sessão -----------------------
+    **Criar SessionController 
+    **Criar metodo dentro de da model User para comparar as senhas  (checkPassword)
+    **Fazer as validações no Controller
+
+
+
+-------------------- Criar migrate e controller de Products ------------------------
+    **Seguir os passos de criar usuario, criando produtos.
+
+
+
+-------------------- Criar o Upload de imagens com MULTER ------------------------
+    yarn add multer             //Instala a biblioteca multer
+    **Criar arquivo multer.js na pasta config
+    **Em routes.js incluir o upload da imagem.
+    **Criar campo de recuperação de imagem na MODEL
+    **Dentro do controller de produtos criar o metodo index
+    **Criar um get de index em routes.js
+    **Criar novo middleware em app.js para mostrar a imagem com o express
+
+
+
+------------------- Criando autenticações de sessão com JWT ---------------------
+    yarn add jsonwebtoken       //instala a biblioteca de JWT
+    **Ir no SessionController para autenticar todas requisições á partir do token ao autenticar o login
+    **importar o JWT
+    **No return final incluir o token que vai ser um jwt.sign()
+    **dentro do objeto o JWT autimaticamente gera o header
+    **colocar o id do usuario
+    **Pesquisar MD5 hash para inserir a chave final criptografada
+    **Por finar incluir um objeto com configurações, no caso tempo para expirar o token e ter que refazer o login
+    **Dentro de config criar o arquivo auth.js e colocar as configurações
+
+
+
+------------------ Configurando a recepção dos tokens -------------------
+    **Criar pasta middlewares dentro da pasta app com o arquivo auth.js
+    **Criar uma função para capturar o token passado no header da requisição
+    
+
+
+------------------ Criando tabela categories --------------------
+    **Criar a migration, a model e o controller
+
+
+
+------------------ Alterando dados de uma tabela -------------------
+    **Criar uma migration para remover o campo da tabela específica
+    yarn sequelize migration:create --name remove-column-category
+    **Configurar a migration e subir a modificação
+    yarn sequeliza db:migrate
+    **Criar migration para incluir nova coluna na tabela
+    yarn sequelize migration:create --name add-category-id-column
+    **Configurar a migration e subir a modificação
+    yarn sequelize db:migrate
+    **Fazer alteração na Model de Products informando que é uma chave estrangeira e trazendo os dados
+    **Fazer a alteração no controller para receber a category_id
+    **Fazer include na Model para poder mostrar as informações da categoria no produto
+
+
+
+------------------ Instalar banco MongoDB NoSQL ------------------
+    docker run --name devburguer-mongodb -p 27017:27017 -d -t mongo
+    **No ./database/index.js criar a instancia mongo() dentro da classe database
+    yarn add mongoose           //ferramenta para trabalhar com o mongodb
+
+
+
+
+------------------ Criar um schema de pedidos ---------------------
+    **Criar pasta schemas dentro de app e arquivo Order.js para criar esquema de pedidos.
+
+
+
+
+------------------ Criar Controller de Pedidos ----------------------
+    **Incluir no toke do Session Controller o envio do nome do usuario
+    **No auth.js de middlewares fazer a requisição do nome também.
+    **Criar o OrderControler e configurações
+    **Criar uma nova variável para importar o schema e criar o pedido no banco do MongoDB
+    **instalar MongoDB Compass, criar a conexão e verificar os registros
+
+
+
+------------------ Listar pedidos e atualizar status --------------------
+    **No OrderController criar a instancia index
+    **Criar a instancia update para atualizar o status
+    **Criar rota update
+
+
+
+------------------ Controle de admin -------------------
+    **Nos controllers criar a validação isAdmin para vetar alterações
+
+
+
+----------------- Update de Products e Categories -------------------
+    **Criar migration para incluir coluna offer
+    yarn sequelize migration:create --name add-column-product-offer
+    **Configurar a migration
+    yarn db:migrate
+    **Incluir a coluna na model Product
+    **Incluir no controller instacia update
+    **Criar rota update no routes
+
+    **Repetir o processo com categories
