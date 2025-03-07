@@ -12,7 +12,7 @@ class SessionController {
     });
 
     const invalidResponse = () => {
-      res.status(401).json({ error: 'email or password is not valid'})
+      res.status(401).json({ error: 'Email or password is not valid'})
     }
 
     try {

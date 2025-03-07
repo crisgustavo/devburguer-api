@@ -26,7 +26,7 @@ class UserController {
       }
     })
 
-    if (userExist) return res.status(400).json({ error: 'User already exists'});    //Valida e retorna  
+    if (userExist) return res.status(409).json({ error: 'User already exists'});    //Valida e retorna  
 
     const user = await User.create({ 
       id: v4(),

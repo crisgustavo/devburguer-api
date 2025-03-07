@@ -18,7 +18,7 @@ class ProductController {
       return res.status(400).json({ error: err.errors }); //Se erro retorna mensagem
     }
 
-    const { admin: isAdmin } = await User.findByPk(req.userId.id)
+    const { admin: isAdmin } = await User.findByPk(req.userId)
 
     if (!isAdmin) return res.status(401).json();
 
@@ -63,7 +63,7 @@ class ProductController {
       return res.status(400).json({ error: err.errors }); //Se erro retorna mensagem
     }
 
-    const { admin: isAdmin } = await User.findByPk(req.userId.id)
+    const { admin: isAdmin } = await User.findByPk(req.userId)
 
     if (!isAdmin) return res.status(401).json();
 
