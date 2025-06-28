@@ -4,7 +4,10 @@
   "main": "src/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "pm2 start \"C:/Program Files/nodejs/node.exe\" --name devburger-api -- -r sucrase/register src/server.js --watch",
+    "stop": "pm2 delete all",
+    "restart": "pm2 restart all"
   },
   "author": {
     "name": "Cristiano G. G. Silva",
@@ -21,6 +24,7 @@
     "multer": "^1.4.5-lts.1",
     "pg": "^8.13.3",
     "pg-hstore": "^2.3.4",
+    "pm2": "^5.4.3",
     "sequelize": "^6.37.5",
     "sucrase": "^3.35.0",
     "yup": "^1.6.1"
